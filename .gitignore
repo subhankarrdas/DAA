@@ -1,4 +1,7 @@
 /mylogs.log
 sublogs.log/
 *.exe
+.idea/
+*.json
+
 
