@@ -3,7 +3,8 @@ sublogs.log/
 *.exe
 .idea/
 *.json
-.vscode
+.vscode/
+
 
 
 
