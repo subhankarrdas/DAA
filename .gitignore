@@ -1,2 +1,4 @@
 /mylogs.log
 sublogs.log/
+*.exe
+
