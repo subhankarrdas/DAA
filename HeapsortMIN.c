@@ -1,69 +1,56 @@
 // MIN implementation
-#include<stdio.h>
-#include<limits.h>
- 
-int heap[100], heapSize;
-void Init() 
+#include <stdio.h>
+#define MAX 100
+void swap(int *a, int *b)
 {
-    heapSize = 0;
-    heap[0] = -INT_MAX;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
- 
-void Insert(int element) 
+void heapify(int arr[], int n, int i)
 {
-    heapSize++;
-    heap[heapSize] = element; 
-    int now = heapSize;
-    while (heap[now / 2] > element) 
+    int smallest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    if (l < n && arr[l] < arr[smallest])
+        smallest = l;
+    if (r < n && arr[r] < arr[smallest])
+        smallest = r;
+    if (smallest != i)
     {
-        heap[now] = heap[now / 2];
-        now /= 2;
+        swap(&arr[i], &arr[smallest]);
+        heapify(arr, n, smallest);
     }
-    heap[now] = element;
 }
- 
-int Min() 
+void heapSort(int arr[], int n)
 {
-    
-    int minElement, lastElement, child, now;
-    minElement = heap[1];
-    lastElement = heap[heapSize--];
-    for (now = 1; now * 2 <= heapSize; now = child)
-     {
-        child = now * 2;
-        if (child != heapSize && heap[child + 1] < heap[child]) 
-        {
-            child++;
-        }
-        if (lastElement > heap[child]) {
-            heap[now] = heap[child];
-        }
-         else 
-        {
-            break;
-        }
+    for (int i = n / 2; i >= 0; i--)
+        heapify(arr, n, i);
+    for (int i = n - 1; i >= 0; i--)
+    {
+        swap(&arr[0], &arr[i]);
+        heapify(arr, i, 0);
     }
-    heap[now] = lastElement;
-    return minElement;
 }
- 
-int main() 
+void printArray(int arr[], int n)
 {
-    int number_of_elements;
-    printf("\nEnter the number of elements: ");
-    scanf("%d", &number_of_elements);
-    int iter, element;
-    Init();
-    printf("Enter the elements: ");
-    for (iter = 0; iter < number_of_elements; iter++) 
-    {
-        scanf("%d", &element);
-        Insert(element);
-    }
-    for (iter = 0; iter < number_of_elements; iter++) 
-    {
-        printf("%d ", Min());
-    }
+    for (int i = 0; i < n; ++i)
+        printf("%d ", arr[i]);
     printf("\n");
+}
+int main()
+{
+    int arr[MAX], n, i;
+    printf("Enter the number of elements in array :");
+    scanf("%d", &n);
+    printf("Enter all the elements :\n");
+    for (i = 0; i < n; i++)
+    {
+        printf("Enter element %d :", i + 1);
+        scanf("%d", &arr[i]);
+    }
+    heapSort(arr, n);
+    printf("Sorted array is \n");
+    printArray(arr, n);
     return 0;
 }
